@@ -61,13 +61,17 @@ namespace Brez {
 		int x = 0;
 		int y = r;
 		int d = 2 * (1 - r);
-		int lim = 0;
+		int lim = (r + 1) / 2;
 
 		while(y >= lim){
 			graphics->FillRectangle(brush, x + xc, y + yc, 1, 1);
 			graphics->FillRectangle(brush, x + xc, yc - y, 1, 1);
+			graphics->FillRectangle(brush, y + xc, x + yc, 1, 1);
+			graphics->FillRectangle(brush, y + xc, yc - x, 1, 1);
 			graphics->FillRectangle(brush, xc - x, y + yc, 1, 1);
 			graphics->FillRectangle(brush, xc - x, yc - y, 1, 1);
+			graphics->FillRectangle(brush, xc - y, x + yc, 1, 1);
+			graphics->FillRectangle(brush, xc - y, yc - x, 1, 1);
 			
 			if (d < 0)
 			{
@@ -111,10 +115,10 @@ namespace Brez {
 		int d = 4 * b2 * ((x + 1) * (x + 1)) + a2 * ((2 * y - 1) * (2 * y - 1)) - 4 * a2 * b2;
 		while (a2 * (2 * y - 1) > 2 * b2 * (x + 1))
 		{
-			graphics->FillRectangle(brush, x + xc, y + yc, 1, 1);
-			graphics->FillRectangle(brush, x + xc, yc - y, 1, 1);
-			graphics->FillRectangle(brush, xc - x, y + yc, 1, 1);
-			graphics->FillRectangle(brush, xc - x, yc - y, 1, 1);
+			graphics->FillRectangle(brush, x + xc - 1, y + yc, 1, 1);
+			graphics->FillRectangle(brush, x + xc - 1, yc - y, 1, 1);
+			graphics->FillRectangle(brush, xc - x + 1, y + yc, 1, 1);
+			graphics->FillRectangle(brush, xc - x + 1, yc - y, 1, 1);
 			if (d < 0)
 			{
 				x++;
@@ -130,11 +134,11 @@ namespace Brez {
 		d = b2 * ((2 * x + 1) * (2 * x + 1)) + 4 * a2 * ((y + 1) * (y + 1)) - 4 * a2 * b2;
 		while (y >= 0)
 		{
-			graphics->FillRectangle(brush, x + xc, y + yc, 1, 1);
-			graphics->FillRectangle(brush, x + xc, yc - y, 1, 1);
-			graphics->FillRectangle(brush, xc - x, y + yc, 1, 1);
-			graphics->FillRectangle(brush, xc - x, yc - y, 1, 1);
-			if (d < 0)
+			graphics->FillRectangle(brush, x + xc - 1, y + yc, 1, 1);
+			graphics->FillRectangle(brush, x + xc - 1, yc - y, 1, 1);
+			graphics->FillRectangle(brush, xc - x + 1, y + yc, 1, 1);
+			graphics->FillRectangle(brush, xc - x + 1, yc - y, 1, 1);
+			if (d < 0 || Math::Max(x1, x2) <= x + xc - 1)
 			{
 				y--;
 				d += 4 * a2 * (2 * y + 3);

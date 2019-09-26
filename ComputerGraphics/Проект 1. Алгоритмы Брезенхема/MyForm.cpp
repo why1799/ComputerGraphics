@@ -135,29 +135,32 @@ namespace Brez {
 	}
 	void MyForm::mouseUp(int x, int y)
 	{
-		this->x2 = x;
-		this->y2 = y;
-		mousedown = false;
-		
-		int r;
-		switch (state)
+		if (mousedown)
 		{
-		case LineDraw:
-			lines->Add(gcnew Line(this->x1, this->y1, this->x2, this->y2));
-			break;
-		case СircleDraw:
-			r = (int)Math::Sqrt((this->x1 - this->x2) * (this->x1 - this->x2) + (this->y1 - this->y2) * (this->y1 - this->y2));
-			circles->Add(gcnew Circle(this->x1, this->y1, r));
-			break;
-		case EllipseDraw:
-			ellipses->Add(gcnew Ellipse(this->x1, this->y1, this->x2, this->y2));
-			break;
-		default:
-			break;
-		}
+			this->x2 = x;
+			this->y2 = y;
+			mousedown = false;
 
-		pictureBox1->Refresh();
-		pictureBox2->Refresh();
+			int r;
+			switch (state)
+			{
+			case LineDraw:
+				lines->Add(gcnew Line(this->x1, this->y1, this->x2, this->y2));
+				break;
+			case СircleDraw:
+				r = (int)Math::Sqrt((this->x1 - this->x2) * (this->x1 - this->x2) + (this->y1 - this->y2) * (this->y1 - this->y2));
+				circles->Add(gcnew Circle(this->x1, this->y1, r));
+				break;
+			case EllipseDraw:
+				ellipses->Add(gcnew Ellipse(this->x1, this->y1, this->x2, this->y2));
+				break;
+			default:
+				break;
+			}
+
+			pictureBox1->Refresh();
+			pictureBox2->Refresh();
+		}
 	}
 	System::Void MyForm::pictureBox1_Paint(System::Object ^ sender, System::Windows::Forms::PaintEventArgs ^ e)
 	{
@@ -238,5 +241,14 @@ namespace Brez {
 	System::Void MyForm::оПрограммеToolStripMenuItem_Click(System::Object ^ sender, System::EventArgs ^ e)
 	{
 		MessageBox::Show("Харченко Артём Витальевич БПИ161\nДомашнее задание \"Проект 1. Алгоритмы Брезенхема\"\nНаписано в Visual Studio 2017, Windows 10\n\nВыполнена отрисовка отрезков, окружностей, эллипсов, очистка экрана и пункт о программе.\n\nЧтобы нарисовать отрезок, окружность, эллипс или чтобы очистить экран, выберите соответствующий пункт во вкладке \"Редактировать\". Затем зажмите мышь на одной из белом поле и проведи, чтобы нарисовать объект. После отпустите кнопку мыши.\n\nКод разделён на нескольно файлов:\nCircle.cpp\nCircle.h\nEllipse.cpp\nEllipse.h\nGraphicExtensions.cpp\nGraphicExtensions.h\nLine.cpp\nLine.h\nMain.cpp\nMyForm.cpp\nMyForm.h\nТочка входа находится в файле Main.cpp");
+	}
+	System::Void MyForm::MyForm_KeyPress(System::Object ^ sender, System::Windows::Forms::KeyPressEventArgs ^ e)
+	{
+		if (e->KeyChar == (char)Keys::Escape)
+		{
+			mousedown = false;
+			pictureBox1->Refresh();
+			pictureBox2->Refresh();
+		}
 	}
 }

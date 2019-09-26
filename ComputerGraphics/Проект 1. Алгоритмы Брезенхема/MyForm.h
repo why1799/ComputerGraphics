@@ -209,6 +209,7 @@ namespace Brez {
 			this->Name = L"MyForm";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"Проект 1. Алгоритмы Брезенхема";
+			this->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &MyForm::MyForm_KeyPress);
 			this->menuStrip1->ResumeLayout(false);
 			this->menuStrip1->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
@@ -272,5 +273,8 @@ namespace Brez {
 
 		//Сообщение о программе
 		System::Void оПрограммеToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e);
-	};
+	
+		//Нажатие на esc
+		System::Void MyForm_KeyPress(System::Object^  sender, System::Windows::Forms::KeyPressEventArgs^  e);
+};
 }
