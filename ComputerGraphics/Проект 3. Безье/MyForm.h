@@ -1,0 +1,598 @@
+#pragma once
+
+#include <vector>
+#include "MyPoint.h"
+
+namespace Bez {
+
+	using namespace System;
+	using namespace System::ComponentModel;
+	using namespace System::Collections;
+	using namespace System::Windows::Forms;
+	using namespace System::Data;
+	using namespace System::Drawing;
+	using namespace System::Collections::Generic;
+
+	/// <summary>
+	/// Сводка для MyForm
+	/// </summary>
+	public ref class MyForm : public System::Windows::Forms::Form
+	{
+
+	public:
+		List<MyPoint^> ^points;
+		bool add;
+		bool end;
+
+	public:
+		MyForm(void)
+		{
+			InitializeComponent();
+			points = gcnew List<MyPoint^>();
+
+
+
+			radioButton1->Checked = true;
+			panel3->Enabled = false;
+			add = false;
+			end = false;
+		}
+
+	protected:
+		/// <summary>
+		/// Освободить все используемые ресурсы.
+		/// </summary>
+		~MyForm()
+		{
+			if (components)
+			{
+				delete components;
+				delete points;
+			}
+		}
+	private: System::Windows::Forms::PictureBox^  pictureBox1;
+	private: System::Windows::Forms::RadioButton^  radioButton1;
+	private: System::Windows::Forms::RadioButton^  radioButton2;
+	private: System::Windows::Forms::Panel^  panel1;
+	private: System::Windows::Forms::Panel^  panel2;
+	private: System::Windows::Forms::Button^  button2;
+	private: System::Windows::Forms::Button^  button1;
+	private: System::Windows::Forms::Button^  button3;
+	private: System::Windows::Forms::CheckBox^  checkBox1;
+	private: System::Windows::Forms::Panel^  panel3;
+
+	private: System::Windows::Forms::CheckBox^  checkBox2;
+	private: System::Windows::Forms::CheckBox^  checkBox3;
+	private: System::Windows::Forms::CheckBox^  checkBox4;
+
+
+
+	protected:
+
+	private:
+		/// <summary>
+		/// Обязательная переменная конструктора.
+		/// </summary>
+		System::ComponentModel::Container ^components;
+
+#pragma region Windows Form Designer generated code
+		/// <summary>
+		/// Требуемый метод для поддержки конструктора — не изменяйте 
+		/// содержимое этого метода с помощью редактора кода.
+		/// </summary>
+		void InitializeComponent(void)
+		{
+			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
+			this->radioButton1 = (gcnew System::Windows::Forms::RadioButton());
+			this->radioButton2 = (gcnew System::Windows::Forms::RadioButton());
+			this->panel1 = (gcnew System::Windows::Forms::Panel());
+			this->panel2 = (gcnew System::Windows::Forms::Panel());
+			this->checkBox1 = (gcnew System::Windows::Forms::CheckBox());
+			this->button2 = (gcnew System::Windows::Forms::Button());
+			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->button3 = (gcnew System::Windows::Forms::Button());
+			this->panel3 = (gcnew System::Windows::Forms::Panel());
+			this->checkBox3 = (gcnew System::Windows::Forms::CheckBox());
+			this->checkBox2 = (gcnew System::Windows::Forms::CheckBox());
+			this->checkBox4 = (gcnew System::Windows::Forms::CheckBox());
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
+			this->panel1->SuspendLayout();
+			this->panel2->SuspendLayout();
+			this->panel3->SuspendLayout();
+			this->SuspendLayout();
+			// 
+			// pictureBox1
+			// 
+			this->pictureBox1->BackColor = System::Drawing::SystemColors::Window;
+			this->pictureBox1->Location = System::Drawing::Point(198, 16);
+			this->pictureBox1->Name = L"pictureBox1";
+			this->pictureBox1->Size = System::Drawing::Size(571, 526);
+			this->pictureBox1->TabIndex = 0;
+			this->pictureBox1->TabStop = false;
+			this->pictureBox1->Click += gcnew System::EventHandler(this, &MyForm::pictureBox1_Click);
+			this->pictureBox1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::pictureBox1_Paint);
+			this->pictureBox1->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::pictureBox1_MouseDown);
+			// 
+			// radioButton1
+			// 
+			this->radioButton1->AutoSize = true;
+			this->radioButton1->Location = System::Drawing::Point(3, 3);
+			this->radioButton1->Name = L"radioButton1";
+			this->radioButton1->Size = System::Drawing::Size(124, 17);
+			this->radioButton1->TabIndex = 1;
+			this->radioButton1->TabStop = true;
+			this->radioButton1->Text = L"Безье 3-го порядка";
+			this->radioButton1->UseVisualStyleBackColor = true;
+			this->radioButton1->CheckedChanged += gcnew System::EventHandler(this, &MyForm::radioButton1_CheckedChanged);
+			// 
+			// radioButton2
+			// 
+			this->radioButton2->AutoSize = true;
+			this->radioButton2->Location = System::Drawing::Point(3, 26);
+			this->radioButton2->Name = L"radioButton2";
+			this->radioButton2->Size = System::Drawing::Size(124, 17);
+			this->radioButton2->TabIndex = 2;
+			this->radioButton2->TabStop = true;
+			this->radioButton2->Text = L"Безье n-го порядка";
+			this->radioButton2->UseVisualStyleBackColor = true;
+			this->radioButton2->CheckedChanged += gcnew System::EventHandler(this, &MyForm::radioButton2_CheckedChanged);
+			// 
+			// panel1
+			// 
+			this->panel1->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->panel1->Controls->Add(this->radioButton1);
+			this->panel1->Controls->Add(this->radioButton2);
+			this->panel1->Location = System::Drawing::Point(12, 12);
+			this->panel1->Name = L"panel1";
+			this->panel1->Size = System::Drawing::Size(156, 55);
+			this->panel1->TabIndex = 3;
+			// 
+			// panel2
+			// 
+			this->panel2->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->panel2->Controls->Add(this->checkBox1);
+			this->panel2->Controls->Add(this->button2);
+			this->panel2->Controls->Add(this->button1);
+			this->panel2->Location = System::Drawing::Point(12, 73);
+			this->panel2->Name = L"panel2";
+			this->panel2->Size = System::Drawing::Size(156, 85);
+			this->panel2->TabIndex = 4;
+			// 
+			// checkBox1
+			// 
+			this->checkBox1->AutoSize = true;
+			this->checkBox1->Location = System::Drawing::Point(3, 61);
+			this->checkBox1->Name = L"checkBox1";
+			this->checkBox1->Size = System::Drawing::Size(91, 17);
+			this->checkBox1->TabIndex = 7;
+			this->checkBox1->Text = L"Разный цвет";
+			this->checkBox1->UseVisualStyleBackColor = true;
+			this->checkBox1->CheckedChanged += gcnew System::EventHandler(this, &MyForm::checkBox1_CheckedChanged);
+			// 
+			// button2
+			// 
+			this->button2->Location = System::Drawing::Point(3, 32);
+			this->button2->Name = L"button2";
+			this->button2->Size = System::Drawing::Size(124, 23);
+			this->button2->TabIndex = 1;
+			this->button2->Text = L"Замкнуть ломаную";
+			this->button2->UseVisualStyleBackColor = true;
+			this->button2->Click += gcnew System::EventHandler(this, &MyForm::button2_Click);
+			// 
+			// button1
+			// 
+			this->button1->Location = System::Drawing::Point(3, 3);
+			this->button1->Name = L"button1";
+			this->button1->Size = System::Drawing::Size(124, 23);
+			this->button1->TabIndex = 0;
+			this->button1->Text = L"Добавить часть";
+			this->button1->UseVisualStyleBackColor = true;
+			this->button1->Click += gcnew System::EventHandler(this, &MyForm::button1_Click);
+			// 
+			// button3
+			// 
+			this->button3->Location = System::Drawing::Point(12, 214);
+			this->button3->Name = L"button3";
+			this->button3->Size = System::Drawing::Size(75, 23);
+			this->button3->TabIndex = 5;
+			this->button3->Text = L"Очистить";
+			this->button3->UseVisualStyleBackColor = true;
+			this->button3->Click += gcnew System::EventHandler(this, &MyForm::button3_Click);
+			// 
+			// panel3
+			// 
+			this->panel3->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->panel3->Controls->Add(this->checkBox3);
+			this->panel3->Location = System::Drawing::Point(12, 172);
+			this->panel3->Name = L"panel3";
+			this->panel3->Size = System::Drawing::Size(156, 36);
+			this->panel3->TabIndex = 5;
+			// 
+			// checkBox3
+			// 
+			this->checkBox3->AutoSize = true;
+			this->checkBox3->Location = System::Drawing::Point(3, 3);
+			this->checkBox3->Name = L"checkBox3";
+			this->checkBox3->Size = System::Drawing::Size(123, 17);
+			this->checkBox3->TabIndex = 9;
+			this->checkBox3->Text = L"Замкнуть ломаную";
+			this->checkBox3->UseVisualStyleBackColor = true;
+			this->checkBox3->CheckedChanged += gcnew System::EventHandler(this, &MyForm::checkBox3_CheckedChanged);
+			// 
+			// checkBox2
+			// 
+			this->checkBox2->AutoSize = true;
+			this->checkBox2->Location = System::Drawing::Point(12, 243);
+			this->checkBox2->Name = L"checkBox2";
+			this->checkBox2->Size = System::Drawing::Size(180, 17);
+			this->checkBox2->TabIndex = 8;
+			this->checkBox2->Text = L"Отобразить опорную ломаную";
+			this->checkBox2->UseVisualStyleBackColor = true;
+			this->checkBox2->CheckedChanged += gcnew System::EventHandler(this, &MyForm::checkBox2_CheckedChanged);
+			// 
+			// checkBox4
+			// 
+			this->checkBox4->AutoSize = true;
+			this->checkBox4->Location = System::Drawing::Point(12, 266);
+			this->checkBox4->Name = L"checkBox4";
+			this->checkBox4->Size = System::Drawing::Size(160, 43);
+			this->checkBox4->TabIndex = 9;
+			this->checkBox4->Text = L"Отобразить кривую Безье\r\nсозданную алгорит-\r\nмом Кастельжо";
+			this->checkBox4->UseVisualStyleBackColor = true;
+			this->checkBox4->CheckedChanged += gcnew System::EventHandler(this, &MyForm::checkBox4_CheckedChanged);
+			// 
+			// MyForm
+			// 
+			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->ClientSize = System::Drawing::Size(779, 550);
+			this->Controls->Add(this->checkBox4);
+			this->Controls->Add(this->checkBox2);
+			this->Controls->Add(this->panel3);
+			this->Controls->Add(this->button3);
+			this->Controls->Add(this->panel2);
+			this->Controls->Add(this->panel1);
+			this->Controls->Add(this->pictureBox1);
+			this->Name = L"MyForm";
+			this->Text = L"MyForm";
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
+			this->panel1->ResumeLayout(false);
+			this->panel1->PerformLayout();
+			this->panel2->ResumeLayout(false);
+			this->panel2->PerformLayout();
+			this->panel3->ResumeLayout(false);
+			this->panel3->PerformLayout();
+			this->ResumeLayout(false);
+			this->PerformLayout();
+
+		}
+#pragma endregion
+	private: System::Void pictureBox1_Click(System::Object^  sender, System::EventArgs^  e) {
+		System::Windows::Forms::MouseEventArgs ^newe = (System::Windows::Forms::MouseEventArgs^)e;
+
+		if (radioButton1->Checked)
+		{
+			if (points->Count >= 4 && (points->Count == 4 || (points->Count - 4) % 3 == 0))
+			{
+				return;
+			}
+		}
+
+		if (checkBox3->Checked && points->Count > 1)
+		{
+			points->Insert(points->Count - 1, gcnew MyPoint(newe->Location.X, newe->Location.Y));
+		}
+		else
+		{
+			points->Add(gcnew MyPoint(newe->Location.X, newe->Location.Y));
+		}
+		pictureBox1->Refresh();
+	}
+	private: System::Void pictureBox1_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+	}
+	private: System::Void pictureBox1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
+
+
+		Color^ c = gcnew Color();
+		Pen^ pen = gcnew Pen(c->Red, 1);
+		SolidBrush^ brush = gcnew SolidBrush(c->Red);
+		int rex = 5;
+		int rin = 2;
+
+		if (checkBox1->Checked)
+		{
+			//Отрисовка опорных точек
+			for (int i = 0; i < points->Count; i++)
+			{
+				if (i % 3 == 0)
+				{
+					pen->Color = c->Red;
+					brush->Color = c->Red;
+				}
+				else
+				{
+					pen->Color = c->Green;
+					brush->Color = c->Green;
+				}
+				e->Graphics->DrawEllipse(pen, points[i]->X - rex, points[i]->Y - rex, 2 * (float)rex, 2 * (float)rex);
+				e->Graphics->FillEllipse(brush, points[i]->X - rin, points[i]->Y - rin, 2 * (float)rin, 2 * (float)rin);
+			}
+		}
+		else
+		{
+			//Отрисовка опорных точек
+			for each (auto p in points)
+			{
+				e->Graphics->DrawEllipse(pen, p->X - rex, p->Y - rex, 2 * (float)rex, 2 * (float)rex);
+				e->Graphics->FillEllipse(brush, p->X - rin, p->Y - rin, 2 * (float)rin, 2 * (float)rin);
+			}
+		}
+
+		//Отрисовка опорной ломанной
+		if (checkBox2->Checked)
+		{
+			for (int i = 1; i < points->Count; i++)
+				e->Graphics->DrawLine(pen, points[i - 1]->X, points[i - 1]->Y, points[i]->X, points[i]->Y);
+		}
+
+		if (radioButton1->Checked)
+		{
+			if (points->Count >= 4)
+			{
+				List<MyPoint^>^ tmp = gcnew List<MyPoint^>();
+				for (int i = 0; i < points->Count; i++)
+				{
+					tmp->Add(points[i]);
+					if (tmp->Count % 4 == 0)
+					{
+						DrawBez3(e->Graphics, tmp);
+						tmp = gcnew List<MyPoint^>();
+						tmp->Add(points[i]);
+					}
+					
+				}
+			}
+		}
+
+		else
+		{
+			DrawBezN(e->Graphics);
+		}
+
+		if (points->Count >= 2 && checkBox4->Checked)
+		{
+			DrawCasteljau(e->Graphics);
+		}
+
+		delete c;
+		delete pen;
+		delete brush;
+	}
+
+
+			 void DrawCasteljau(Graphics ^g)
+			 {
+				 Color ^c = gcnew Color();
+				 Pen ^pen = gcnew Pen(c->Green);
+
+				 float xprev, yprev;
+
+				 for (int s = 0; s <= 100; s++)
+				 {
+					 float t = s / 100.0;
+
+					 auto point = DrawCasteljau(g, points, t);
+
+					 if (s != 0)
+					 {
+						 g->DrawLine(pen, xprev, yprev, point->X, point->Y);
+					 }
+					 
+					 xprev = point->X;
+					 yprev = point->Y;
+
+					 delete point;
+				 }
+
+				 delete c;
+				 delete pen;
+			 }
+
+			 MyPoint^ DrawCasteljau(Graphics ^g, List<MyPoint^>^ pl, float t)
+			 {
+				 if (pl->Count == 2)
+				 {
+					 float xx1 = (pl[1]->X - pl[0]->X) * t + pl[0]->X;
+					 float yy1 = (pl[1]->Y - pl[0]->Y) * t + pl[0]->Y;
+					 return gcnew MyPoint(xx1, yy1);
+				 }
+				 else if (pl->Count == 3)
+				 {
+					 float xx1 = (pl[1]->X - pl[0]->X) * t + pl[0]->X;
+					 float yy1 = (pl[1]->Y - pl[0]->Y) * t + pl[0]->Y;
+
+					 float xx2 = (pl[2]->X - pl[1]->X) * t + pl[1]->X;
+					 float yy2 = (pl[2]->Y - pl[1]->Y) * t + pl[1]->Y;
+
+					 float xx3 = (xx2 - xx1) * t + xx1;
+					 float yy3 = (yy2 - yy1) * t + yy1;
+
+					 return gcnew MyPoint(xx3, yy3);
+				 }
+				 else
+				 {
+					 List<MyPoint^>^ psnew = gcnew List<MyPoint^>();
+					 for (int i = 1; i < pl->Count; i++)
+					 {
+						 float xx1 = (pl[i]->X - pl[i - 1]->X) * t + pl[i - 1]->X;
+						 float yy1 = (pl[i]->Y - pl[i - 1]->Y) * t + pl[i - 1]->Y;
+
+						 psnew->Add(gcnew MyPoint(xx1, yy1));
+					 }
+					 return DrawCasteljau(g, psnew, t);
+				 }
+			 }
+
+			 //Рисует кривую безье третьей степени
+			 void DrawBez3(Graphics ^g, List<MyPoint^> ^points)
+			 {
+				 Color^ c = gcnew Color();
+				 Pen^ pen = gcnew Pen(c->Black);
+
+				 int xprev;
+				 int yprev;
+
+				 for (int s = 0; s <= 100; s += 1)
+				 {
+					 float t = s / 100.0;
+					 int x = Math::Pow((1 - t), 3) * points[0]->X + 3 * t * Math::Pow((1 - t), 2) * points[1]->X + 3 * t * t * (1 - t) * points[2]->X + t * t * t * points[3]->X;
+					 int y = Math::Pow((1 - t), 3) * points[0]->Y + 3 * t * Math::Pow((1 - t), 2) * points[1]->Y + 3 * t * t * (1 - t) * points[2]->Y + t * t * t * points[3]->Y;
+					 if (t != 0)
+					 {
+						 g->DrawLine(pen, xprev, yprev, x, y);
+					 }
+					 xprev = x;
+					 yprev = y;
+				 }
+
+				 delete c;
+				 delete pen;
+			 }
+
+			 //Рисует кривую безье n-ой степени
+			 void DrawBezN(Graphics ^g)
+			 {
+				 Color^ c = gcnew Color();
+				 Pen^ pen = gcnew Pen(c->Black);
+
+				 float xprev;
+				 float yprev;
+
+				 for (int s = 0; s <= 100; s += 1)
+				 {
+					 float t = s / 100.0;
+					 float x = 0;
+					 float y = 0;
+
+					 for (int i = 0; i < points->Count; i++)
+					 {
+						 float n = points->Count - 1;
+						 //float p = fac(n) / float(fac(i)*fac(n - i)) * Math::Pow(t, i) * Math::Pow((1 - t), n - i);
+						 float p = C(n, i) * Math::Pow(t, i) * Math::Pow((1 - t), n - i);
+						 x += p * points[i]->X;
+						 y += p * points[i]->Y;
+					 }
+					 if (t != 0)
+					 {
+						 g->DrawLine(pen, xprev, yprev, x, y);
+					 }
+					 xprev = x;
+					 yprev = y;
+				 }
+
+				 delete c;
+				 delete pen;
+			 }
+
+			 //Считает факториал
+			 long long fac(int n)
+			 {
+				 long long i = 1;
+				 for (int j = 1; j <= n; j++)
+				 {
+					 i *= j;
+				 }
+				 return i;
+			 }
+
+			 long long C(int n, int k)
+			 {
+				 if ((n == k) || (k == 0)) {
+					 return 1;
+				 }
+				 if (k == 1) {
+					 return n;
+				 }
+				 return C(n - 1, k) + C(n - 1, k - 1);
+			 }
+	private: System::Void checkBox2_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+		pictureBox1->Refresh();
+	}
+private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) {
+	points = gcnew List<MyPoint^>();
+	checkBox3->Checked = false;
+	end = false;
+	pictureBox1->Refresh();
+}
+private: System::Void radioButton1_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+	if (radioButton1->Checked)
+	{
+		points = gcnew List<MyPoint^>;
+		pictureBox1->Refresh();
+		panel3->Enabled = false;
+		panel2->Enabled = true;
+		checkBox3->Checked = false;
+		end = false;
+	}
+}
+private: System::Void radioButton2_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+	if (radioButton2->Checked)
+	{
+		pictureBox1->Refresh();
+		panel3->Enabled = true;
+		panel2->Enabled = false;
+		checkBox1->Checked = false;
+		end = false;
+	}
+}
+private: System::Void checkBox3_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+
+
+	if (points->Count > 0)
+	{
+		if (checkBox3->Checked)
+		{
+			points->Add(gcnew MyPoint(points[0]->X, points[0]->Y));
+		}
+		else
+		{
+			points->RemoveAt(points->Count - 1);
+		}
+	}
+	else
+	{
+		checkBox3->Checked = false;
+	}
+	pictureBox1->Refresh();
+}
+private: System::Void checkBox4_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+	pictureBox1->Refresh();
+}
+private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+	if (points->Count >= 4 &&(points->Count == 4 || (points->Count - 4) % 3 == 0) && radioButton1->Checked && !end)
+	{
+		auto f = points[points->Count - 1];
+		auto s = points[points->Count - 2];
+
+		points->Add(gcnew MyPoint(2 * f->X - s->X, 2 * f->Y - s->Y));
+		pictureBox1->Refresh();
+	}
+}
+
+private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
+	if (points->Count >= 4 && (points->Count - 4) % 3 == 1 && radioButton1->Checked && !end)
+	{
+		auto f = points[0];
+		auto s = points[1];
+
+		points->Add(gcnew MyPoint(2 * f->X - s->X, 2 * f->Y - s->Y));
+		points->Add(points[0]);
+		end = true;
+		pictureBox1->Refresh();
+	}
+}
+private: System::Void checkBox1_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+	pictureBox1->Refresh();
+}
+};
+}
