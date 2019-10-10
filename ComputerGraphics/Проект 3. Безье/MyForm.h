@@ -33,6 +33,7 @@ namespace Bez {
 		bool dad;
 		float mousex;
 	private: System::Windows::Forms::CheckBox^ checkBox5;
+	private: System::Windows::Forms::Button^ button4;
 		   float mousey;
 
 	public:
@@ -101,6 +102,7 @@ namespace Bez {
 			this->panel1 = (gcnew System::Windows::Forms::Panel());
 			this->radioButton3 = (gcnew System::Windows::Forms::RadioButton());
 			this->panel2 = (gcnew System::Windows::Forms::Panel());
+			this->checkBox5 = (gcnew System::Windows::Forms::CheckBox());
 			this->checkBox1 = (gcnew System::Windows::Forms::CheckBox());
 			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->button1 = (gcnew System::Windows::Forms::Button());
@@ -109,7 +111,7 @@ namespace Bez {
 			this->checkBox3 = (gcnew System::Windows::Forms::CheckBox());
 			this->checkBox2 = (gcnew System::Windows::Forms::CheckBox());
 			this->checkBox4 = (gcnew System::Windows::Forms::CheckBox());
-			this->checkBox5 = (gcnew System::Windows::Forms::CheckBox());
+			this->button4 = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->panel1->SuspendLayout();
 			this->panel2->SuspendLayout();
@@ -194,6 +196,18 @@ namespace Bez {
 			this->panel2->Name = L"panel2";
 			this->panel2->Size = System::Drawing::Size(233, 192);
 			this->panel2->TabIndex = 4;
+			// 
+			// checkBox5
+			// 
+			this->checkBox5->AutoSize = true;
+			this->checkBox5->Location = System::Drawing::Point(4, 128);
+			this->checkBox5->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->checkBox5->Name = L"checkBox5";
+			this->checkBox5->Size = System::Drawing::Size(219, 44);
+			this->checkBox5->TabIndex = 8;
+			this->checkBox5->Text = L"Прямая на опорных точ-\r\nках";
+			this->checkBox5->UseVisualStyleBackColor = true;
+			this->checkBox5->CheckedChanged += gcnew System::EventHandler(this, &MyForm::checkBox5_CheckedChanged);
 			// 
 			// checkBox1
 			// 
@@ -286,23 +300,23 @@ namespace Bez {
 			this->checkBox4->UseVisualStyleBackColor = true;
 			this->checkBox4->CheckedChanged += gcnew System::EventHandler(this, &MyForm::checkBox4_CheckedChanged);
 			// 
-			// checkBox5
+			// button4
 			// 
-			this->checkBox5->AutoSize = true;
-			this->checkBox5->Location = System::Drawing::Point(4, 128);
-			this->checkBox5->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
-			this->checkBox5->Name = L"checkBox5";
-			this->checkBox5->Size = System::Drawing::Size(219, 44);
-			this->checkBox5->TabIndex = 8;
-			this->checkBox5->Text = L"Прямая на опорных точ-\r\nках";
-			this->checkBox5->UseVisualStyleBackColor = true;
-			this->checkBox5->CheckedChanged += gcnew System::EventHandler(this, &MyForm::checkBox5_CheckedChanged);
+			this->button4->Location = System::Drawing::Point(13, 797);
+			this->button4->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->button4->Name = L"button4";
+			this->button4->Size = System::Drawing::Size(141, 35);
+			this->button4->TabIndex = 10;
+			this->button4->Text = L"О программе";
+			this->button4->UseVisualStyleBackColor = true;
+			this->button4->Click += gcnew System::EventHandler(this, &MyForm::button4_Click);
 			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1168, 846);
+			this->Controls->Add(this->button4);
 			this->Controls->Add(this->checkBox4);
 			this->Controls->Add(this->checkBox2);
 			this->Controls->Add(this->panel3);
@@ -312,7 +326,7 @@ namespace Bez {
 			this->Controls->Add(this->pictureBox1);
 			this->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->Name = L"MyForm";
-			this->Text = L"MyForm";
+			this->Text = L"Проект 3. Сплайновые кривые";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			this->panel1->ResumeLayout(false);
 			this->panel1->PerformLayout();
@@ -915,6 +929,9 @@ namespace Bez {
 	}
 private: System::Void checkBox5_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
 	pictureBox1->Refresh();
+}
+private: System::Void button4_Click(System::Object^ sender, System::EventArgs^ e) {
+	MessageBox::Show("Харченко Артём Витальевич БПИ161\n\nДомашнее задание \"Проект 3. Сплайновые кривые\"\nНаписано в Visual Studio 2019, Windows 10\n\nВыполнено отрисовка Безье 3-его порядка, возможность делать составную ломаную, замкнуть её. Отрисовка прямых на опорных точках, разный цвет опорных точек\nВыполнена отрисовка Безье n-ого порядка, возможность её замыкать\nВыполнена отрисовка кривых B-сплайн, возможность её замыкать\nМожно отоброжать опорную ломаную\nМожно отобразить кривую Безье созданную алгоритмом Кастельжо по опорным точкам\nМожно очистить экран\nМожно переносить точки\nЕсть пункт о программе");
 }
 };
 }
