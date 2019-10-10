@@ -537,14 +537,14 @@ namespace Bez {
 			   Color^ c = gcnew Color();
 			   Pen^ pen = gcnew Pen(c->Black);
 
-			   int xprev;
-			   int yprev;
+			   float xprev;
+			   float yprev;
 
 			   for (int s = 0; s <= 100; s += 1)
 			   {
 				   float t = s / 100.0;
-				   int x = Math::Pow((1 - t), 3) * points[0]->X + 3 * t * Math::Pow((1 - t), 2) * points[1]->X + 3 * t * t * (1 - t) * points[2]->X + t * t * t * points[3]->X;
-				   int y = Math::Pow((1 - t), 3) * points[0]->Y + 3 * t * Math::Pow((1 - t), 2) * points[1]->Y + 3 * t * t * (1 - t) * points[2]->Y + t * t * t * points[3]->Y;
+				   float x = Math::Pow((1 - t), 3) * points[0]->X + 3 * t * Math::Pow((1 - t), 2) * points[1]->X + 3 * t * t * (1 - t) * points[2]->X + t * t * t * points[3]->X;
+				   float y = Math::Pow((1 - t), 3) * points[0]->Y + 3 * t * Math::Pow((1 - t), 2) * points[1]->Y + 3 * t * t * (1 - t) * points[2]->Y + t * t * t * points[3]->Y;
 				   if (t != 0)
 				   {
 					   g->DrawLine(pen, xprev, yprev, x, y);
