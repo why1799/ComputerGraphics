@@ -1,7 +1,9 @@
 #include <windows.h>
 #include <math.h>
 #include <stdio.h>
-#include <GL/glut.h>
+#include <string>
+#include <clocale>
+#include <GL/freeglut.h>
 
 #include "WorldObject.h"
 
@@ -17,7 +19,7 @@
 #define SUBTREE  0
 #define SUBDATA  1
 
-//Начальные данные
+//РќР°С‡Р°Р»СЊРЅС‹Рµ РґР°РЅРЅС‹Рµ
 #define OBJECTS 2
 #define WINDOW_WIDTH  800
 #define WINDOW_HEIGHT 600
@@ -25,12 +27,12 @@
 namespace KDZ2
 {
 
-	//Вектор
+	//Р’РµРєС‚РѕСЂ
 	typedef struct {
 		double x, y, z;
 	} VECTOR3D;
 
-	//Точка
+	//РўРѕС‡РєР°
 	typedef struct {
 		double x, y, z;
 		int fixed;
@@ -49,14 +51,15 @@ namespace KDZ2
 	} QUADTREE;
 	
 
-	double camspeed = 0.2; //Скорость камеры
-	double time_step = 0.002; //Временной шаг
-	double camx = 0.0, camy = 0.5, camz = 2.0, viewx = 0.0, viewy = 0.0, viewz = -1.0; //Положение камеры
-	double gravity = 9.81; //Гравитация
-	bool light_switch = true; //Освещение
-	WorldObject* obj[OBJECTS]; //Массив объектов
+	double aspect_ratio = 0; //РЎРѕРѕС‚РЅРѕС€РµРЅРёРµ СЃС‚РѕСЂРѕРЅ
+	double camspeed = 0.2; //РЎРєРѕСЂРѕСЃС‚СЊ РєР°РјРµСЂС‹
+	double time_step = 0.002; //Р’СЂРµРјРµРЅРЅРѕР№ С€Р°Рі
+	double camx = 0.0, camy = 0.5, camz = 2.0, viewx = 0.0, viewy = 0.0, viewz = -1.0; //РџРѕР»РѕР¶РµРЅРёРµ РєР°РјРµСЂС‹
+	double gravity = 9.81; //Р“СЂР°РІРёС‚Р°С†РёСЏ
+	bool light_switch = true; //РћСЃРІРµС‰РµРЅРёРµ
+	WorldObject* obj[OBJECTS]; //РњР°СЃСЃРёРІ РѕР±СЉРµРєС‚РѕРІ
 
-	//Нормализованный вектор по трём точкам
+	//РќРѕСЂРјР°Р»РёР·РѕРІР°РЅРЅС‹Р№ РІРµРєС‚РѕСЂ РїРѕ С‚СЂС‘Рј С‚РѕС‡РєР°Рј
 	void normalv(POINT3D pt1, POINT3D pt2, POINT3D pt3, VECTOR3D& ptn) {
 		double x1 = pt2.x - pt1.x;
 		double y1 = pt2.y - pt1.y;
@@ -69,7 +72,7 @@ namespace KDZ2
 		ptn.z = x1 * y2 - x2 * y1;
 	}
 
-	//Минимальный по 4ём
+	//РњРёРЅРёРјР°Р»СЊРЅС‹Р№ РїРѕ 4С‘Рј
 	double min4(double x1, double x2, double x3, double x4) {
 		if (x2 < x1) x1 = x2;
 		if (x3 < x1) x1 = x3;
@@ -77,7 +80,7 @@ namespace KDZ2
 		return x1;
 	}
 
-	//Максимальный по 4ём
+	//РњР°РєСЃРёРјР°Р»СЊРЅС‹Р№ РїРѕ 4С‘Рј
 	double max4(double x1, double x2, double x3, double x4) {
 		if (x2 > x1) x1 = x2;
 		if (x3 > x1) x1 = x3;
@@ -919,15 +922,24 @@ namespace KDZ2
 
 	}
 
-	//Отрисовка окна
+	void drawText(float x, float y, std::string text)
+	{
+		glRasterPos2f(x, y);
+		glutBitmapString(GLUT_BITMAP_8_BY_13, (const unsigned char*)text.c_str());
+	}
+
+	//РћС‚СЂРёСЃРѕРІРєР° РѕРєРЅР°
 	void display() {
-		//Очистка экрана и установка начальных значений
+		//РћС‡РёСЃС‚РєР° СЌРєСЂР°РЅР° Рё СѓСЃС‚Р°РЅРѕРІРєР° РЅР°С‡Р°Р»СЊРЅС‹С… Р·РЅР°С‡РµРЅРёР№
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		gluLookAt(camx, camy, camz, camx + viewx, camy + viewy, camz + viewz, 0, 1, 0);
 
-		//Отрисовка пола
+		
+
+		//РћС‚СЂРёСЃРѕРІРєР° РїРѕР»Р°
 		float colb0[4] = { 0.6, 0.6, 0.63, 1.0 };
 		float colb1[4] = { 0.7, 0.7, 0.75, 1.0 };
 		float colb2[4] = { 0.9, 0.9, 0.94, 1.0 };
@@ -944,8 +956,14 @@ namespace KDZ2
 		glVertex3d(100.0, 0.0, -100.0);
 		glEnd();
 
-		//Отрисовка объектов
+		//РћС‚СЂРёСЃРѕРІРєР° РѕР±СЉРµРєС‚РѕРІ
 		for (int i = 0; i < OBJECTS; i++) obj[i]->draw();
+
+
+		glOrtho(-10 * aspect_ratio, 10 * aspect_ratio, -10, 10, -1, 1);
+		glColor3ub(0, 255, 255);
+
+		drawText(-14, 4, "KDZ 2. Variant 4. A Cloth and a ball.\nKharchenko Artem BSE161\nKey 'R':Start the cloth falling\nKey 'S':Start again\nKey 'L':Turn on\\off the ligth\nKeys up and down:Camera control\n");
 
 		glutSwapBuffers();
 	}
@@ -961,18 +979,18 @@ namespace KDZ2
 		for (int i = 0; i < OBJECTS; i++) obj[i]->advance(dt);
 	}
 
-	//Происходит при простаивании
+	//РџСЂРѕРёСЃС…РѕРґРёС‚ РїСЂРё РїСЂРѕСЃС‚Р°РёРІР°РЅРёРё
 	void idle() {
 		advanceall(time_step);
 		glutPostRedisplay();
 	}
 
-	//Координаты мыши
+	//РљРѕРѕСЂРґРёРЅР°С‚С‹ РјС‹С€Рё
 	int mousex = -0x10000, mousey;
 
-	//При зажимании левой кнопки мыши
+	//РџСЂРё Р·Р°Р¶РёРјР°РЅРёРё Р»РµРІРѕР№ РєРЅРѕРїРєРё РјС‹С€Рё
 	void mouse(int button, int state, int x, int y) {
-		//Сбросить статус
+		//РЎР±СЂРѕСЃРёС‚СЊ СЃС‚Р°С‚СѓСЃ
 		mousex = -0x10000;
 		if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
 			mousex = x;
@@ -980,7 +998,7 @@ namespace KDZ2
 		}
 	}
 
-	//Поворот камеры
+	//РџРѕРІРѕСЂРѕС‚ РєР°РјРµСЂС‹
 	void rotate2d(double ang, double& x, double& y) {
 		double cos_a = cos(ang), sin_a = sin(ang);
 		double xr = x * cos_a - y * sin_a;
@@ -989,7 +1007,7 @@ namespace KDZ2
 		y = yr;
 	}
 
-	//Передвижение мыши
+	//РџРµСЂРµРґРІРёР¶РµРЅРёРµ РјС‹С€Рё
 	void motion(int x, int y) {
 		if (mousex != -0x10000) {
 			double mdx = (x - mousex) * -0.01;
@@ -1003,14 +1021,14 @@ namespace KDZ2
 		mousey = y;
 	}
 
-	//Перезагрузка объектов
+	//РџРµСЂРµР·Р°РіСЂСѓР·РєР° РѕР±СЉРµРєС‚РѕРІ
 	void reloadobj()
 	{
 		obj[0] = new cloth(25, 1.0, 15.0, 350.0, 1.05, 0.05);
 		obj[1] = new ball(0.0, 0.0, 0.0, 0.2, 10.0, 0.0, 0.9);
 	}
 
-	//Действия на кнопки
+	//Р”РµР№СЃС‚РІРёСЏ РЅР° РєРЅРѕРїРєРё
 	void key(unsigned char k, int x, int y) {
 		switch (k) {
 		case 27: exit(0);
@@ -1027,11 +1045,13 @@ namespace KDZ2
 		case 'l': case 'L': {
 			light_switch = !light_switch;
 			light_switch ? glEnable(GL_LIGHT0) : glDisable(GL_LIGHT0);
+			break;
 		}
 		case 's': case 'S': {
 			reloadobj();
+			break;
 		}
-				break;
+				
 		}
 	}
 
@@ -1046,60 +1066,62 @@ namespace KDZ2
 		}
 	}
 
-	//При изменения размеров
+	//РџСЂРё РёР·РјРµРЅРµРЅРёСЏ СЂР°Р·РјРµСЂРѕРІ
 	void reshape(int w, int h) {
 		if (h == 0) h = 1;
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
+		aspect_ratio = (double)w / (double)h;
 		glViewport(0, 0, w, h);
 		gluPerspective(45, double(w) / h, 0.01, 100.0);
 	}
 
-	//Начальная точка
-	int main(int argc, char* argv[]) {
+	
+}
 
-		//Инициализация
-		glutInit(&argc, argv);
-		glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
-		glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-		glutCreateWindow("Cloth and Ball");
+//РќР°С‡Р°Р»СЊРЅР°СЏ С‚РѕС‡РєР°
+int main(int argc, char* argv[]) {
 
-		//Добавление методов
-		glutDisplayFunc(display);
-		glutIdleFunc(idle);
-		glutMouseFunc(mouse);
-		glutMotionFunc(motion);
-		glutReshapeFunc(reshape);
-		glutKeyboardFunc(key);
-		glutSpecialFunc(special);
+	//РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
+	glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+	glutCreateWindow("Cloth and Ball");
 
-		//Источники света
-		float pos[4] = { 0, 0, 1, 0 };
-		float Ia[4] = { 1.0, 1.0, 1.0, 1.0 }, Id[4] = { 0.5, 0.5, 0.5, 1.0 }, Is[4] = { 1, 1, 1, 1.0 };
-		glLightfv(GL_LIGHT0, GL_AMBIENT, Ia);
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, Id);
-		glLightfv(GL_LIGHT0, GL_SPECULAR, Is);
-		glLightfv(GL_LIGHT0, GL_POSITION, pos);
-		glEnable(GL_LIGHT0);
-		glEnable(GL_LIGHTING);
+	//Р”РѕР±Р°РІР»РµРЅРёРµ РјРµС‚РѕРґРѕРІ
+	glutDisplayFunc(KDZ2::display);
+	glutIdleFunc(KDZ2::idle);
+	glutMouseFunc(KDZ2::mouse);
+	glutMotionFunc(KDZ2::motion);
+	glutReshapeFunc(KDZ2::reshape);
+	glutKeyboardFunc(KDZ2::key);
+	glutSpecialFunc(KDZ2::special);
 
-		//Размеры
-		glClearColor(0.0, 0.0, 0.0, 1.0);
-		glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+	//РСЃС‚РѕС‡РЅРёРєРё СЃРІРµС‚Р°
+	float pos[4] = { 0, 0, 1, 0 };
+	float Ia[4] = { 1.0, 1.0, 1.0, 1.0 }, Id[4] = { 0.5, 0.5, 0.5, 1.0 }, Is[4] = { 1, 1, 1, 1.0 };
+	glLightfv(GL_LIGHT0, GL_AMBIENT, Ia);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, Id);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, Is);
+	glLightfv(GL_LIGHT0, GL_POSITION, pos);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHTING);
 
-		//Матрица
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		gluPerspective(45, 1.0, 0.01, 100.0);
-		glEnable(GL_CULL_FACE);
-		glEnable(GL_NORMALIZE);
-		glEnable(GL_DEPTH_TEST);
-		glShadeModel(GL_SMOOTH);
+	//Р Р°Р·РјРµСЂС‹
+	glClearColor(0.0, 0.0, 0.0, 1.0);
+	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-		//Добавление объектов
-		reloadobj();
+	//РњР°С‚СЂРёС†Р°
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(45, 1.0, 0.01, 100.0);
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_NORMALIZE);
+	glEnable(GL_DEPTH_TEST);
+	glShadeModel(GL_SMOOTH);
 
-		glutMainLoop();
-		return 0;
-	}
+	//Р”РѕР±Р°РІР»РµРЅРёРµ РѕР±СЉРµРєС‚РѕРІ
+	KDZ2::reloadobj();
+
+	glutMainLoop();
 }
